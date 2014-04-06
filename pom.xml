@@ -130,11 +130,12 @@
                 <version>${gwt.version}</version>
                 <executions>
                     <execution>
-                        <configuration>
-                            <!--<module>kanban</module>-->
-                            <draftCompile>true</draftCompile>
-                            <localWorkers>2</localWorkers>
-                        </configuration>
+                        <!--<configuration>-->
+                            <!--<module>zufarfakhurtdinov.kanban</module>-->
+                            <!--<draftCompile>true</draftCompile>-->
+                            <!--<localWorkers>4</localWorkers>-->
+                            <!--<logLevel>TRACE</logLevel>-->
+                        <!--</configuration>-->
                         <goals>
                             <!--<goal>test</goal>-->
                             <goal>compile</goal>
@@ -142,9 +143,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!--<module>kanban</module>-->
                     <runTarget>kanban.html</runTarget>
-                    <draftCompile>true</draftCompile>
+                    <localWorkers>4</localWorkers>
                     <hostedWebapp>${webappDirectory}</hostedWebapp>
                 </configuration>
             </plugin>

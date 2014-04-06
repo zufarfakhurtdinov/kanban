@@ -1,8 +1,8 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'>
     <li>
-        <input ui:field="checkbox" type="hidden">
+        <input ui:field="input" type="hidden">
             <span ui:field="text"/>
-            <a ui:field="delete" href="#">(Delete)</a>
+            <button ui:field="delete">x</button>
         </input>
     </li>
 </ui:UiBinder>

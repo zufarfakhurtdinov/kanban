@@ -8,6 +8,5 @@ import jetbrains.jetpad.model.property.ValueProperty;
  * Created by dr on 05.04.2014.
  */
 public class TaskListItem extends HasParent<TaskList, TaskListItem> {
-//    public final Property<Boolean> completed = new ValueProperty<>(false);
     public final Property<String> text = new ValueProperty<>("");
 }

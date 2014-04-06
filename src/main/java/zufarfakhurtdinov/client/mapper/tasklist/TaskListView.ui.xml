@@ -1,9 +1,12 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'>
     <div>
-        <h1>Todo List (<span ui:field="count"/>)</h1>
+        <input type="hidden">
+            <span ui:field="name"/>
+            <a ui:field="delete" href="#">(Delete)</a>
+        </input>
         <ul ui:field="children" class="{style.list}">
         </ul>
-        <a ui:field="addNew" href="#">Add New</a>
+        <button ui:field="addNew">Add new task</button>
     </div>
 
     <ui:style>
