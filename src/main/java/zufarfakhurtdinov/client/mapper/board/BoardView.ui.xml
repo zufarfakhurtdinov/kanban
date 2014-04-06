@@ -1,0 +1,6 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'>
+    <div>
+        <div ui:field="main"/>
+        <button ui:field="addNew" >Add new list</button>
+    </div>
+</ui:UiBinder>

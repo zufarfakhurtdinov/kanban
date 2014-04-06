@@ -1,8 +1,6 @@
 package zufarfakhurtdinov.client.mapper.taskitem;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.query.client.Function;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.Synchronizers;
@@ -25,13 +23,13 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
                 return false;
             }
         });
-        //TODO: change behaviour for initial data
-        Scheduler.get().scheduleDeferred(new Command() {
-            @Override
-            public void execute() {
-                $(getTarget().text).click();
-            }
-        });
+        //TODO: implement behaviour for initial data
+//        Scheduler.get().scheduleDeferred(new Command() {
+//            @Override
+//            public void execute() {
+//                $(getTarget().text).click();
+//            }
+//        });
 
     }
 
