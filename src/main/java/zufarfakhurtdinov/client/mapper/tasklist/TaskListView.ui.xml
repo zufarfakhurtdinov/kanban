@@ -1,17 +1,18 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'>
-    <div>
+    <div ui:field="main" class="{style.width} {style.tasklist}" draggable="true">
         <input type="hidden">
             <span ui:field="name"/>
-            <a ui:field="delete" href="#">(Delete)</a>
+            <button ui:field="delete">x</button>
         </input>
-        <ul ui:field="children" class="{style.list}">
-        </ul>
+        <div ui:field="children"/>
         <button ui:field="addNew">Add new task</button>
     </div>
-
     <ui:style>
-        .list {
-            list-style-type: none;
+        .width{
+            width: 200px;
+        }
+        .tasklist{
+            border: dotted grey;
         }
     </ui:style>
 </ui:UiBinder>

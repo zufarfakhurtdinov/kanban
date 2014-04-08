@@ -32,6 +32,13 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
                 return false;
             }
         });
+        $(getTarget().delete).click( new Function() {
+            @Override
+            public boolean f( Event e ) {
+                getSource().removeFromParent();
+                return false;
+            }
+        });
     }
 
 

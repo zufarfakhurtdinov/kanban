@@ -1,8 +1,8 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'>
-    <li>
+    <div>
         <input ui:field="input" type="hidden">
             <span ui:field="text"/>
             <button ui:field="delete">x</button>
         </input>
-    </li>
+    </div>
 </ui:UiBinder>

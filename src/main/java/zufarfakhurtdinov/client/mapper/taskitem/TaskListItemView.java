@@ -2,8 +2,8 @@ package zufarfakhurtdinov.client.mapper.taskitem;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.ButtonElement;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.InputElement;
-import com.google.gwt.dom.client.LIElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -26,5 +26,5 @@ public class TaskListItemView extends BaseWithElement {
     InputElement input;
 
     private static final TaskListItemUiBinder ourUiBinder = GWT.create( TaskListItemUiBinder.class);
-    interface TaskListItemUiBinder extends UiBinder<LIElement, TaskListItemView > {}
+    interface TaskListItemUiBinder extends UiBinder<DivElement, TaskListItemView > {}
 }
