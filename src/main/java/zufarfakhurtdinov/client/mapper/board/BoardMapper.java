@@ -1,17 +1,16 @@
 package zufarfakhurtdinov.client.mapper.board;
 
-import com.google.gwt.query.client.Function;
-import com.google.gwt.user.client.Event;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Widget;
 import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.MapperFactory;
-import jetbrains.jetpad.mapper.gwt.WithElement;
+import zufarfakhurtdinov.client.common.WidgetChildList;
 import zufarfakhurtdinov.client.mapper.tasklist.TaskListMapper;
 import zufarfakhurtdinov.client.model.Board;
 import zufarfakhurtdinov.client.model.TaskList;
 
-import static com.google.gwt.query.client.GQuery.$;
 import static jetbrains.jetpad.mapper.Synchronizers.forObservableRole;
-import static jetbrains.jetpad.mapper.gwt.DomUtil.withElementChildren;
 
 /**
  * Created by dr on 06.04.2014.
@@ -20,23 +19,22 @@ public class BoardMapper extends Mapper<Board, BoardView> {
     public BoardMapper(Board source) {
         super(source, new BoardView());
 
-        $(getTarget().addNew).click( new Function() {
+        getTarget().addNew.addClickHandler(new ClickHandler() {
             @Override
-            public boolean f(Event e) {
+            public void onClick(ClickEvent event) {
                 TaskList taskList = new TaskList();
-                taskList.name.set( "new tasklist" );
-                getSource().items.add( taskList );
-                return false;
+                taskList.name.set("new tasklist");
+                getSource().items.add(taskList);
             }
-        });
+        } );
     }
 
     @Override
     protected void registerSynchronizers(SynchronizersConfiguration conf) {
         super.registerSynchronizers(conf);
-        conf.add(forObservableRole(this, getSource().items, withElementChildren(getTarget().main), new MapperFactory<TaskList, WithElement>() {
+        conf.add(forObservableRole(this, getSource().items, new WidgetChildList( getTarget().main ), new MapperFactory<TaskList, Widget>() {
             @Override
-            public Mapper<? extends TaskList, ? extends WithElement> createMapper(TaskList source) {
+            public Mapper<? extends TaskList, ? extends Widget> createMapper(TaskList source) {
                 return new TaskListMapper(source);
             }
         }));

@@ -1,30 +1,30 @@
 package zufarfakhurtdinov.client.mapper.taskitem;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.ButtonElement;
-import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import jetbrains.jetpad.mapper.gwt.BaseWithElement;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Created by dr on 05.04.2014.
  */
-public class TaskListItemView extends BaseWithElement {
+public class TaskListItemView extends Composite {
 
     public TaskListItemView() {
-        setElement(ourUiBinder.createAndBindUi(this));
+        initWidget(ourUiBinder.createAndBindUi(this));
     }
 
     @UiField
     SpanElement text;
     @UiField
-    ButtonElement delete;
+    Button delete;
     @UiField
     InputElement input;
 
     private static final TaskListItemUiBinder ourUiBinder = GWT.create( TaskListItemUiBinder.class);
-    interface TaskListItemUiBinder extends UiBinder<DivElement, TaskListItemView > {}
+    interface TaskListItemUiBinder extends UiBinder<Widget, TaskListItemView > {}
 }

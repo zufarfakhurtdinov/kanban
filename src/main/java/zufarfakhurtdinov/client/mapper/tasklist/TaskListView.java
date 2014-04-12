@@ -1,41 +1,34 @@
 package zufarfakhurtdinov.client.mapper.tasklist;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.ButtonElement;
-import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import jetbrains.jetpad.mapper.gwt.BaseWithElement;
+import com.google.gwt.user.client.ui.*;
 
 /**
  * Created by dr on 05.04.2014.
  */
-public class TaskListView extends BaseWithElement {
+public class TaskListView extends Composite {
 
     public TaskListView() {
-        setElement( ourUiBinder.createAndBindUi( this ) );
-//        $(main).bind("dragstart", new Function() {
-//            @Override
-//            public boolean f(Event e) {
-//                return false;
-//            }
-//        });
-
+        initWidget(ourUiBinder.createAndBindUi(this));
     }
 
     @UiField
     SpanElement name;
 
     @UiField
-    ButtonElement addNew;
+    Button addNew;
     @UiField
-    ButtonElement delete;
+    Button delete;
     @UiField
-    DivElement children;
+    FlowPanel children;
     @UiField
-    DivElement main;
+    HTMLPanel main;
+    @UiField
+    HTMLPanel title;
 
-    interface TaskListViewUiBinder extends UiBinder<DivElement, TaskListView>{}
+    interface TaskListViewUiBinder extends UiBinder<Widget, TaskListView>{}
     private static final TaskListViewUiBinder ourUiBinder = GWT.create( TaskListViewUiBinder.class );
 }

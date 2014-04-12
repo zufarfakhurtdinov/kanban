@@ -1,12 +1,14 @@
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'>
-    <div ui:field="main" class="{style.width} {style.tasklist}" draggable="true">
-        <input type="hidden">
-            <span ui:field="name"/>
-            <button ui:field="delete">x</button>
-        </input>
-        <div ui:field="children"/>
-        <button ui:field="addNew">Add new task</button>
-    </div>
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui">
+    <g:HTMLPanel ui:field="main" styleName="{style.width} {style.tasklist}">
+        <g:HTMLPanel ui:field="title">
+            <input type="hidden" >
+                <span ui:field="name"/>
+                <g:Button ui:field="delete">x</g:Button>
+            </input>
+        </g:HTMLPanel>
+        <g:FlowPanel ui:field="children"/>
+        <g:Button ui:field="addNew">Add new task</g:Button>
+    </g:HTMLPanel>
     <ui:style>
         .width{
             width: 200px;

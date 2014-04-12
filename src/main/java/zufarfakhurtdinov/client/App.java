@@ -1,9 +1,9 @@
 package zufarfakhurtdinov.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Document;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import jetbrains.jetpad.mapper.Mapper;
-import jetbrains.jetpad.mapper.gwt.WithElement;
 import zufarfakhurtdinov.client.mapper.board.BoardMapper;
 import zufarfakhurtdinov.client.model.Board;
 import zufarfakhurtdinov.client.model.TaskList;
@@ -21,10 +21,10 @@ public class App implements EntryPoint {
         myFactory.getEventBus();
 
         Board board = createBoard();
-        Mapper<Board, ? extends WithElement> mapper = new BoardMapper( board );
+        Mapper<Board, ? extends Widget> mapper = new BoardMapper( board );
         mapper.attachRoot();
 
-        Document.get().getElementById("main").appendChild(mapper.getTarget().getElement());
+        RootPanel.get().add( mapper.getTarget() );
     }
 
     private static Board createBoard() {
