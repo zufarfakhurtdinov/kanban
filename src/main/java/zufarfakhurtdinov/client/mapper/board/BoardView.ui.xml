@@ -1,6 +1,7 @@
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
     <g:FlowPanel>
         <g:FlowPanel ui:field="main"/>
-        <g:Button ui:field="addNew" >Add new list</g:Button>
+        <b:Button ui:field="addNew" >Add new list</b:Button>
     </g:FlowPanel>
 </ui:UiBinder>

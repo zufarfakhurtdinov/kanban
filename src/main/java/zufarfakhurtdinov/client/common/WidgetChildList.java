@@ -29,5 +29,12 @@ public class WidgetChildList extends AbstractList<Widget>{
         return parent.getWidgetCount();
     }
 
+    @Override
+    public Widget remove(int index) {
+        Widget widget = parent.getWidget(index);
+        parent.remove( index );
+        return widget;
+    }
+
     private FlowPanel parent;
 }
