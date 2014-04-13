@@ -1,18 +1,53 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
-    <g:HTMLPanel ui:field="main" styleName="{style.width} {style.tasklist}">
-        <g:FlowPanel ui:field="title">
-            <g:Label ui:field="name"/>
-            <b:Button ui:field="delete">x</b:Button>
-        </g:FlowPanel>
-        <g:FlowPanel ui:field="children"/>
-        <b:Button ui:field="addNew">Add new task</b:Button>
-    </g:HTMLPanel>
+    <g:SimplePanel ui:field="main" addStyleNames="{style.taskListPanel}">
+        <b:Panel addStyleNames="panel-info {style.zeroBottomMargin}">
+            <b:PanelHeader ui:field="title" addStyleNames="{style.dragCursor}">
+                <b:InputGroup addStyleNames="{style.inputGroupStyle}">
+                    <b:Heading size="4" ui:field="name" styleName="pull-left"/>
+                    <g:SimplePanel styleName="pull-right {style.marginButton}">
+                        <b:Button ui:field="delete">x</b:Button>
+                    </g:SimplePanel>
+
+                    <b:InputGroupButton  >
+
+
+                    </b:InputGroupButton>
+                </b:InputGroup>
+            </b:PanelHeader>
+            <b:PanelBody>
+                <g:FlowPanel ui:field="children"/>
+            </b:PanelBody>
+            <b:PanelFooter>
+                <b:Button ui:field="addNew" block="true">Add new task</b:Button>
+            </b:PanelFooter>
+        </b:Panel>
+    </g:SimplePanel>
     <ui:style>
-        .width{
+        .taskListPanel {
+            display: inline-block;
             width: 200px;
+            height: 100%;
+            vertical-align: top;
+            margin: 2px;
         }
-        .tasklist{
-            border: dotted grey;
+
+        .marginButton {
+            margin: 0;
+        }
+
+        .zeroBottomMargin {
+            margin-bottom: 0;
+            top: 15px;
+        }
+
+        .dragCursor {
+            cursor: move; /* fallback if grab cursor is unsupported */
+            cursor: -moz-grab;
+            cursor: -webkit-grab;
+        }
+
+        .inputGroupStyle {
+            width: 100%;
         }
     </ui:style>
 </ui:UiBinder>
