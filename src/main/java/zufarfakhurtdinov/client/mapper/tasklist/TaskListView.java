@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.PanelHeader;
+import org.gwtbootstrap3.client.ui.TextBox;
 
 /**
  * Created by dr on 05.04.2014.
@@ -33,6 +34,10 @@ public class TaskListView extends Composite {
     SimplePanel main;
     @UiField
     PanelHeader title;
+    @UiField
+    TextBox editName;
+    @UiField
+    FlowPanel namePanel;
 
     interface TaskListViewUiBinder extends UiBinder<Widget, TaskListView>{}
     private static final TaskListViewUiBinder ourUiBinder = GWT.create( TaskListViewUiBinder.class );

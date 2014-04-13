@@ -7,7 +7,7 @@ import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.MapperFactory;
 import jetbrains.jetpad.mapper.Synchronizers;
 import jetbrains.jetpad.model.collections.list.ObservableList;
-import jetbrains.jetpad.model.property.WritableProperty;
+import zufarfakhurtdinov.client.common.InplaceEditor;
 import zufarfakhurtdinov.client.common.WidgetChildList;
 import zufarfakhurtdinov.client.mapper.taskitem.TaskListItemMapper;
 import zufarfakhurtdinov.client.model.TaskList;
@@ -44,12 +44,11 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
             public void onDragStart(DragStartEvent event) {
                 event.getDataTransfer().setData(TRANSFER_DATA_TYPE, "");
                 draggedTaskList = getSource();
-                event.getDataTransfer().setDragImage( getTarget().main.getElement(), 10, 10);
+                event.getDataTransfer().setDragImage(getTarget().main.getElement(), 10, 10);
             }
         },DragStartEvent.getType());
 
         getTarget().main.sinkBitlessEvent( DragOverEvent.getType().getName());
-
         getTarget().main.addDomHandler( new DropHandler() {
             @Override
             public void onDrop(DropEvent event) {
@@ -82,12 +81,9 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
             }
         }));
 
-        conf.add(Synchronizers.forProperty(getSource().name, new WritableProperty<String>() {
-            @Override
-            public void set(String s) {
-                getTarget().name.setText( s );
-            }
-        }));
+        conf.add(Synchronizers.forProperty(getSource().name,
+                InplaceEditor.editableTextOf( getTarget().name, getTarget().namePanel, getTarget().editName) )
+        );
     }
 
     private static TaskList draggedTaskList;

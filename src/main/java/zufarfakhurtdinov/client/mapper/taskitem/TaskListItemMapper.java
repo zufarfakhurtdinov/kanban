@@ -5,7 +5,7 @@ import com.google.gwt.event.dom.client.*;
 import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.Synchronizers;
 import jetbrains.jetpad.model.collections.list.ObservableList;
-import jetbrains.jetpad.model.property.WritableProperty;
+import zufarfakhurtdinov.client.common.InplaceEditor;
 import zufarfakhurtdinov.client.model.TaskListItem;
 
 /**
@@ -61,12 +61,9 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
     @Override
     protected void registerSynchronizers(SynchronizersConfiguration conf) {
         super.registerSynchronizers(conf);
-        conf.add(Synchronizers.forProperty(getSource().text, new WritableProperty<String>() {
-            @Override
-            public void set(String s) {
-                getTarget().text.setInnerText(s);
-            }
-        }));
+        conf.add(Synchronizers.forProperty(getSource().text,
+                InplaceEditor.editableTextOf(getTarget().text, getTarget().textPanel, getTarget().textEdit))
+        );
     }
 
     private static TaskListItem draggedItem;

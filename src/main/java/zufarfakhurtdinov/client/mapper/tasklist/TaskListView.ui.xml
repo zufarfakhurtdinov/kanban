@@ -1,20 +1,20 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
     <g:SimplePanel ui:field="main" addStyleNames="{style.taskListPanel}">
-        <b:Panel addStyleNames="panel-info {style.zeroBottomMargin}">
+        <b:Panel styleName="panel panel-info {style.zeroBottomMargin}">
             <b:PanelHeader ui:field="title" addStyleNames="{style.dragCursor}">
                 <b:InputGroup addStyleNames="{style.inputGroupStyle}">
-                    <b:Heading size="4" ui:field="name" styleName="pull-left"/>
-                    <g:SimplePanel styleName="pull-right {style.marginButton}">
-                        <b:Button ui:field="delete">x</b:Button>
-                    </g:SimplePanel>
-
-                    <b:InputGroupButton  >
-
-
-                    </b:InputGroupButton>
+                    <g:FlowPanel ui:field="namePanel">
+                        <b:Heading size="4" ui:field="name" addStyleNames="pull-left {style.headingStyle}"/>
+                        <g:SimplePanel styleName="pull-right ">
+                            <b:Button ui:field="delete" addStyleNames="{style.marginButton}">x</b:Button>
+                        </g:SimplePanel>
+                    </g:FlowPanel>
+                    <b:TextBox ui:field="editName" visible="false"/>
                 </b:InputGroup>
+
+
             </b:PanelHeader>
-            <b:PanelBody>
+            <b:PanelBody addStyleNames="{style.panelBody}">
                 <g:FlowPanel ui:field="children"/>
             </b:PanelBody>
             <b:PanelFooter>
@@ -48,6 +48,14 @@
 
         .inputGroupStyle {
             width: 100%;
+        }
+        .headingStyle{
+            display: inline;
+            word-wrap: break-word;
+        }
+        .panelBody{
+            overflow: auto;
+            max-height: 450px;
         }
     </ui:style>
 </ui:UiBinder>
