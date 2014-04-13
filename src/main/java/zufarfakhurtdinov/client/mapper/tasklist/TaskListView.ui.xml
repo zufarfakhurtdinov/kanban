@@ -1,11 +1,9 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
     <g:HTMLPanel ui:field="main" styleName="{style.width} {style.tasklist}">
-        <g:HTMLPanel ui:field="title">
-            <input type="hidden" >
-                <span ui:field="name"/>
-                <b:Button ui:field="delete">x</b:Button>
-            </input>
-        </g:HTMLPanel>
+        <g:FlowPanel ui:field="title">
+            <g:Label ui:field="name"/>
+            <b:Button ui:field="delete">x</b:Button>
+        </g:FlowPanel>
         <g:FlowPanel ui:field="children"/>
         <b:Button ui:field="addNew">Add new task</b:Button>
     </g:HTMLPanel>

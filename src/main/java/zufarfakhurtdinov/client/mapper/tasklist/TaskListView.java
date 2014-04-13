@@ -1,13 +1,9 @@
 package zufarfakhurtdinov.client.mapper.tasklist;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 import org.gwtbootstrap3.client.ui.Button;
 
 /**
@@ -20,7 +16,7 @@ public class TaskListView extends Composite {
     }
 
     @UiField
-    SpanElement name;
+    Label name;
 
     @UiField
     Button addNew;
@@ -31,7 +27,7 @@ public class TaskListView extends Composite {
     @UiField
     HTMLPanel main;
     @UiField
-    HTMLPanel title;
+    FlowPanel title;
 
     interface TaskListViewUiBinder extends UiBinder<Widget, TaskListView>{}
     private static final TaskListViewUiBinder ourUiBinder = GWT.create( TaskListViewUiBinder.class );

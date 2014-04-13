@@ -1,11 +1,12 @@
 package zufarfakhurtdinov.client.mapper.tasklist;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.ui.Widget;
 import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.MapperFactory;
 import jetbrains.jetpad.mapper.Synchronizers;
+import jetbrains.jetpad.model.collections.list.ObservableList;
 import jetbrains.jetpad.model.property.WritableProperty;
 import zufarfakhurtdinov.client.common.WidgetChildList;
 import zufarfakhurtdinov.client.mapper.taskitem.TaskListItemMapper;
@@ -21,7 +22,7 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
     public TaskListMapper(TaskList source) {
         super(source, new TaskListView());
 
-        getTarget().addNew.addClickHandler( new ClickHandler() {
+        getTarget().addNew.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 String text = "new task";
@@ -36,6 +37,37 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
                 getSource().removeFromParent();
             }
         });
+
+        getTarget().title.getElement().setDraggable( Element.DRAGGABLE_TRUE );
+        getTarget().title.addDomHandler( new DragStartHandler() {
+            @Override
+            public void onDragStart(DragStartEvent event) {
+                event.getDataTransfer().setData(TRANSFER_DATA_TYPE, "");
+                draggedTaskList = getSource();
+                event.getDataTransfer().setDragImage( getTarget().main.getElement(), 10, 10);
+            }
+        },DragStartEvent.getType());
+
+        getTarget().main.sinkBitlessEvent( DragOverEvent.getType().getName());
+
+        getTarget().main.addDomHandler( new DropHandler() {
+            @Override
+            public void onDrop(DropEvent event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                if( draggedTaskList == null ) {
+                    return;
+                }
+
+                ObservableList<TaskList> taskLists = getSource().parent().get().items;
+
+                int indexToAdd = taskLists.indexOf(getSource());
+                draggedTaskList.removeFromParent();
+                taskLists.add( indexToAdd, draggedTaskList );
+                draggedTaskList = null;
+            }
+        }, DropEvent.getType() );
     }
 
 
@@ -53,8 +85,12 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
         conf.add(Synchronizers.forProperty(getSource().name, new WritableProperty<String>() {
             @Override
             public void set(String s) {
-                getTarget().name.setInnerText( s );
+                getTarget().name.setText( s );
             }
         }));
     }
+
+    private static TaskList draggedTaskList;
+    private static final String TRANSFER_DATA_TYPE = "transferDateType";
+
 }

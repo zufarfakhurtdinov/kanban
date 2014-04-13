@@ -1,9 +1,10 @@
 package zufarfakhurtdinov.client.mapper.taskitem;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.*;
 import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.Synchronizers;
+import jetbrains.jetpad.model.collections.list.ObservableList;
 import jetbrains.jetpad.model.property.WritableProperty;
 import zufarfakhurtdinov.client.model.TaskListItem;
 
@@ -28,6 +29,33 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
 //            }
 //        });
 
+
+        getTarget().main.getElement().setDraggable(Element.DRAGGABLE_TRUE);
+        getTarget().main.addDomHandler(new DragStartHandler() {
+            @Override
+            public void onDragStart(DragStartEvent event) {
+                event.getDataTransfer().setData(TRANSFER_DATA_TYPE, "");
+                event.getDataTransfer().setDragImage(getTarget().main.getElement(), 10, 10);
+                draggedItem = getSource();
+            }
+        }, DragStartEvent.getType());
+
+        getTarget().main.sinkBitlessEvent( DragOverEvent.getType().getName());
+        getTarget().main.addDomHandler( new DropHandler() {
+            @Override
+            public void onDrop(DropEvent event) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (draggedItem == null) {
+                    return;
+                }
+                ObservableList<TaskListItem> taskLists = getSource().parent().get().items;
+
+                int indexToAdd = taskLists.indexOf(getSource());
+                draggedItem.removeFromParent();
+                taskLists.add( indexToAdd, draggedItem );
+            }
+        }, DropEvent.getType() );
     }
 
     @Override
@@ -41,4 +69,6 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
         }));
     }
 
+    private static TaskListItem draggedItem;
+    private static final String TRANSFER_DATA_TYPE = "transferDateType";
 }

@@ -23,7 +23,7 @@ public class BoardMapper extends Mapper<Board, BoardView> {
             @Override
             public void onClick(ClickEvent event) {
                 TaskList taskList = new TaskList();
-                taskList.name.set("new tasklist");
+                taskList.name.set("new tasklist" + ++counter);
                 getSource().items.add(taskList);
             }
         } );
@@ -39,4 +39,6 @@ public class BoardMapper extends Mapper<Board, BoardView> {
             }
         }));
     }
+
+    private static int counter = 0;
 }
