@@ -18,7 +18,7 @@
                 <g:FlowPanel ui:field="children"/>
             </b:PanelBody>
             <b:PanelFooter>
-                <b:Button ui:field="addNew" block="true">Add new task</b:Button>
+                <b:Button ui:field="addTask" block="true">Add new task</b:Button>
             </b:PanelFooter>
         </b:Panel>
     </g:SimplePanel>
@@ -55,7 +55,7 @@
         }
         .panelBody{
             overflow: auto;
-            max-height: 450px;
+            max-height: 320px;
         }
     </ui:style>
 </ui:UiBinder>

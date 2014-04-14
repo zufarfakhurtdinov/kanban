@@ -21,14 +21,6 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
                 getSource().removeFromParent();
             }
         });
-        //TODO: implement behaviour for initial data
-//        Scheduler.get().scheduleDeferred(new Command() {
-//            @Override
-//            public void execute() {
-//                $(getTarget().text).click();
-//            }
-//        });
-
 
         getTarget().main.getElement().setDraggable(Element.DRAGGABLE_TRUE);
         getTarget().main.addDomHandler(new DragStartHandler() {
@@ -58,6 +50,10 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
         }, DropEvent.getType() );
     }
 
+    public void showNameEdit() {
+        click( getTarget().text.getElement() );
+    }
+
     @Override
     protected void registerSynchronizers(SynchronizersConfiguration conf) {
         super.registerSynchronizers(conf);
@@ -65,6 +61,10 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
                 InplaceEditor.editableTextOf(getTarget().text, getTarget().textPanel, getTarget().textEdit))
         );
     }
+
+    private static native void click(Element element)/*-{
+        element.click();
+    }-*/;
 
     private static TaskListItem draggedItem;
     private static final String TRANSFER_DATA_TYPE = "transferDateType";

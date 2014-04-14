@@ -22,13 +22,15 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
     public TaskListMapper(TaskList source) {
         super(source, new TaskListView());
 
-        getTarget().addNew.addClickHandler(new ClickHandler() {
+        getTarget().addTask.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 String text = "new task";
                 TaskListItem item = new TaskListItem();
                 item.text.set(text);
                 getSource().items.add(item);
+
+                ((TaskListItemMapper)getDescendantMapper( item )).showNameEdit();
             }
         });
         getTarget().delete.addClickHandler(new ClickHandler() {

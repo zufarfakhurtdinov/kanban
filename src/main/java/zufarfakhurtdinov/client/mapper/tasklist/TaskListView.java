@@ -25,7 +25,7 @@ public class TaskListView extends Composite {
     Heading name;
 
     @UiField
-    Button addNew;
+    Button addTask;
     @UiField
     Button delete;
     @UiField
