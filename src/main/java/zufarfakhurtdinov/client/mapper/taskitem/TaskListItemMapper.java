@@ -12,6 +12,9 @@ import zufarfakhurtdinov.client.model.TaskListItem;
  * Created by dr on 05.04.2014.
  */
 public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
+    private static final String TRANSFER_DATA_TYPE = "transferDateType";
+    private static TaskListItem ourDraggedItem;
+
     public TaskListItemMapper( TaskListItem source ) {
         super(source, new TaskListItemView());
 
@@ -28,27 +31,31 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
             public void onDragStart(DragStartEvent event) {
                 event.getDataTransfer().setData(TRANSFER_DATA_TYPE, "");
                 event.getDataTransfer().setDragImage(getTarget().main.getElement(), 10, 10);
-                draggedItem = getSource();
+                ourDraggedItem = getSource();
             }
         }, DragStartEvent.getType());
 
-        getTarget().main.sinkBitlessEvent( DragOverEvent.getType().getName());
-        getTarget().main.addDomHandler( new DropHandler() {
+        getTarget().main.sinkBitlessEvent(DragOverEvent.getType().getName());
+        getTarget().main.addDomHandler(new DropHandler() {
             @Override
             public void onDrop(DropEvent event) {
                 event.preventDefault();
                 event.stopPropagation();
-                if (draggedItem == null) {
+                if (ourDraggedItem == null) {
                     return;
                 }
                 ObservableList<TaskListItem> taskLists = getSource().parent().get().items;
 
                 int indexToAdd = taskLists.indexOf(getSource());
-                draggedItem.removeFromParent();
-                taskLists.add( indexToAdd, draggedItem );
+                ourDraggedItem.removeFromParent();
+                taskLists.add(indexToAdd, ourDraggedItem);
             }
-        }, DropEvent.getType() );
+        }, DropEvent.getType());
     }
+
+    private static native void click(Element element)/*-{
+        element.click();
+    }-*/;
 
     public void showNameEdit() {
         click( getTarget().text.getElement() );
@@ -57,15 +64,8 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
     @Override
     protected void registerSynchronizers(SynchronizersConfiguration conf) {
         super.registerSynchronizers(conf);
-        conf.add(Synchronizers.forProperty(getSource().text,
+        conf.add(Synchronizers.forProperties(getSource().text,
                 InplaceEditor.editableTextOf(getTarget().text, getTarget().textPanel, getTarget().textEdit))
         );
     }
-
-    private static native void click(Element element)/*-{
-        element.click();
-    }-*/;
-
-    private static TaskListItem draggedItem;
-    private static final String TRANSFER_DATA_TYPE = "transferDateType";
 }

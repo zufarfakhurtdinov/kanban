@@ -14,19 +14,6 @@ import zufarfakhurtdinov.client.model.TaskListItem;
  */
 public class App implements EntryPoint {
 
-    @Override
-    public void onModuleLoad() {
-        MyFactory myFactory = MyFactory.INSTANCE;
-
-        myFactory.getEventBus();
-
-        Board board = createBoard();
-        Mapper<Board, ? extends Widget> mapper = new BoardMapper( board );
-        mapper.attachRoot();
-
-        RootPanel.get().add( mapper.getTarget() );
-    }
-
     private static Board createBoard() {
         Board board = new Board();
         board.items.add( createTaskList() );
@@ -47,5 +34,18 @@ public class App implements EntryPoint {
         TaskListItem item = new TaskListItem();
         item.text.set(text);
         return item;
+    }
+
+    @Override
+    public void onModuleLoad() {
+        MyFactory myFactory = MyFactory.INSTANCE;
+
+        myFactory.getEventBus();
+
+        Board board = createBoard();
+        Mapper<Board, ? extends Widget> mapper = new BoardMapper( board );
+        mapper.attachRoot();
+
+        RootPanel.get().add( mapper.getTarget() );
     }
 }

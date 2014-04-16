@@ -19,6 +19,9 @@ import static jetbrains.jetpad.mapper.Synchronizers.forObservableRole;
  * Created by dr on 05.04.2014.
  */
 public class TaskListMapper extends Mapper<TaskList, TaskListView> {
+    private static final String TRANSFER_DATA_TYPE = "transferDateType";
+    private static TaskList ourDraggedTaskList;
+
     public TaskListMapper(TaskList source) {
         super(source, new TaskListView());
 
@@ -45,7 +48,7 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
             @Override
             public void onDragStart(DragStartEvent event) {
                 event.getDataTransfer().setData(TRANSFER_DATA_TYPE, "");
-                draggedTaskList = getSource();
+                ourDraggedTaskList = getSource();
                 event.getDataTransfer().setDragImage(getTarget().main.getElement(), 10, 10);
             }
         },DragStartEvent.getType());
@@ -57,20 +60,19 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
                 event.preventDefault();
                 event.stopPropagation();
 
-                if( draggedTaskList == null ) {
+                if( ourDraggedTaskList == null ) {
                     return;
                 }
 
                 ObservableList<TaskList> taskLists = getSource().parent().get().items;
 
                 int indexToAdd = taskLists.indexOf(getSource());
-                draggedTaskList.removeFromParent();
-                taskLists.add( indexToAdd, draggedTaskList );
-                draggedTaskList = null;
+                ourDraggedTaskList.removeFromParent();
+                taskLists.add( indexToAdd, ourDraggedTaskList);
+                ourDraggedTaskList = null;
             }
         }, DropEvent.getType() );
     }
-
 
     @Override
     protected void registerSynchronizers(SynchronizersConfiguration conf) {
@@ -83,12 +85,9 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
             }
         }));
 
-        conf.add(Synchronizers.forProperty(getSource().name,
+        conf.add(Synchronizers.forProperties(getSource().name,
                 InplaceEditor.editableTextOf( getTarget().name, getTarget().namePanel, getTarget().editName) )
         );
     }
-
-    private static TaskList draggedTaskList;
-    private static final String TRANSFER_DATA_TYPE = "transferDateType";
 
 }

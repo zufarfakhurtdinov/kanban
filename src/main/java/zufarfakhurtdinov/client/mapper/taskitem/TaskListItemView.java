@@ -13,10 +13,7 @@ import org.gwtbootstrap3.client.ui.TextBox;
  */
 public class TaskListItemView extends Composite {
 
-    public TaskListItemView() {
-        initWidget(ourUiBinder.createAndBindUi(this));
-    }
-
+    private static final TaskListItemUiBinder ourUiBinder = GWT.create( TaskListItemUiBinder.class);
     @UiField
     Heading text;
     @UiField
@@ -28,6 +25,8 @@ public class TaskListItemView extends Composite {
     @UiField
     TextBox textEdit;
 
-    private static final TaskListItemUiBinder ourUiBinder = GWT.create( TaskListItemUiBinder.class);
+    public TaskListItemView() {
+        initWidget(ourUiBinder.createAndBindUi(this));
+    }
     interface TaskListItemUiBinder extends UiBinder<Widget, TaskListItemView > {}
 }

@@ -13,17 +13,16 @@ import org.gwtbootstrap3.client.ui.Button;
  */
 public class BoardView extends Composite {
 
-    public BoardView() {
-        initWidget(ourUiBinder.createAndBindUi(this));
-    }
-
+    private static final BoardUiBinder ourUiBinder = GWT.create( BoardUiBinder.class );
     @UiField
     FlowPanel main;
     @UiField
     Button addNew;
 
 
+    public BoardView() {
+        initWidget(ourUiBinder.createAndBindUi(this));
+    }
     interface BoardUiBinder extends UiBinder<Widget, BoardView>{}
-    private static final BoardUiBinder ourUiBinder = GWT.create( BoardUiBinder.class );
 
 }

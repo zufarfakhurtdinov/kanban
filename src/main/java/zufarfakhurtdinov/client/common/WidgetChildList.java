@@ -10,31 +10,31 @@ import java.util.AbstractList;
  */
 public class WidgetChildList extends AbstractList<Widget>{
 
-    public WidgetChildList(FlowPanel parent) {
-        this.parent = parent;
+    private FlowPanel myParent;
+
+    public WidgetChildList(FlowPanel myParent) {
+        this.myParent = myParent;
     }
 
     @Override
     public void add(int index, Widget element) {
-        parent.insert( element, index );
+        myParent.insert(element, index);
     }
 
     @Override
     public Widget get(int index) {
-        return parent.getWidget( index );
+        return myParent.getWidget( index );
     }
 
     @Override
     public int size() {
-        return parent.getWidgetCount();
+        return myParent.getWidgetCount();
     }
 
     @Override
     public Widget remove(int index) {
-        Widget widget = parent.getWidget(index);
-        parent.remove( index );
+        Widget widget = myParent.getWidget(index);
+        myParent.remove(index);
         return widget;
     }
-
-    private FlowPanel parent;
 }

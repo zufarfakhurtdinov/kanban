@@ -17,10 +17,7 @@ import org.gwtbootstrap3.client.ui.TextBox;
  */
 public class TaskListView extends Composite {
 
-    public TaskListView() {
-        initWidget(ourUiBinder.createAndBindUi(this));
-    }
-
+    private static final TaskListViewUiBinder ourUiBinder = GWT.create( TaskListViewUiBinder.class );
     @UiField
     Heading name;
 
@@ -39,6 +36,8 @@ public class TaskListView extends Composite {
     @UiField
     FlowPanel namePanel;
 
+    public TaskListView() {
+        initWidget(ourUiBinder.createAndBindUi(this));
+    }
     interface TaskListViewUiBinder extends UiBinder<Widget, TaskListView>{}
-    private static final TaskListViewUiBinder ourUiBinder = GWT.create( TaskListViewUiBinder.class );
 }

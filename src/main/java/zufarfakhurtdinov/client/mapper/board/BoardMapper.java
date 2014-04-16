@@ -16,6 +16,8 @@ import static jetbrains.jetpad.mapper.Synchronizers.forObservableRole;
  * Created by dr on 06.04.2014.
  */
 public class BoardMapper extends Mapper<Board, BoardView> {
+    private static int ourCounter = 0;
+
     public BoardMapper(Board source) {
         super(source, new BoardView());
 
@@ -23,10 +25,10 @@ public class BoardMapper extends Mapper<Board, BoardView> {
             @Override
             public void onClick(ClickEvent event) {
                 TaskList taskList = new TaskList();
-                taskList.name.set("new tasklist" + ++counter);
+                taskList.name.set("new tasklist" + ++ourCounter);
                 getSource().items.add(taskList);
             }
-        } );
+        });
     }
 
     @Override
@@ -39,6 +41,4 @@ public class BoardMapper extends Mapper<Board, BoardView> {
             }
         }));
     }
-
-    private static int counter = 0;
 }
