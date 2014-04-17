@@ -1,9 +1,12 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
     <g:HTMLPanel ui:field="main">
-        <g:FlowPanel ui:field="textPanel" addStyleNames="{style.relative}">
-            <b:Heading ui:field="text" size="5" addStyleNames="{style.dragCursor} {style.heading} "/>
+        <g:HTMLPanel ui:field="textPanel" addStyleNames="{style.textPanel}">
+            <g:SimplePanel styleName="{style.headingWrapper} {style.dragCursor} ">
+                <b:Heading ui:field="text" size="5" addStyleNames="{style.heading}"/>
+            </g:SimplePanel>
             <b:Button ui:field="delete" addStyleNames="{style.button}">x</b:Button>
-        </g:FlowPanel>
+            <span class="{style.stretch}"/>
+        </g:HTMLPanel>
         <b:TextBox ui:field="textEdit" visible="false"/>
     </g:HTMLPanel>
 
@@ -13,17 +16,32 @@
             cursor: -moz-grab;
             cursor: -webkit-grab;
         }
-        .relative{
+
+        .textPanel {
+            text-align: justify;
             position: relative;
+            width: 100%;
         }
+
         .heading{
+            width: 110px;
+            word-wrap: break-word;
+            margin-top: 0;
+        }
+        .headingWrapper {
             margin: 0;
             padding: 10px 0;
+            display: inline-block;
         }
-        .button{
-            position: absolute;
-            top: 0;
-            right: 0;
+
+        .button {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .stretch {
+            width: 100%;
+            display: inline-block;
         }
     </ui:style>
 </ui:UiBinder>

@@ -21,7 +21,7 @@ public class TaskListItemView extends Composite {
     @UiField
     HTMLPanel main;
     @UiField
-    FlowPanel textPanel;
+    HTMLPanel textPanel;
     @UiField
     TextBox textEdit;
 

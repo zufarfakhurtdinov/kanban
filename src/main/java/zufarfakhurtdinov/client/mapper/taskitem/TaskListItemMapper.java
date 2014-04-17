@@ -25,8 +25,8 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
             }
         });
 
-        getTarget().main.getElement().setDraggable(Element.DRAGGABLE_TRUE);
-        getTarget().main.addDomHandler(new DragStartHandler() {
+        getTarget().textPanel.getElement().setDraggable(Element.DRAGGABLE_TRUE);
+        getTarget().textPanel.addDomHandler(new DragStartHandler() {
             @Override
             public void onDragStart(DragStartEvent event) {
                 event.getDataTransfer().setData(TRANSFER_DATA_TYPE, "");
@@ -49,6 +49,7 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
                 int indexToAdd = taskLists.indexOf(getSource());
                 ourDraggedItem.removeFromParent();
                 taskLists.add(indexToAdd, ourDraggedItem);
+                ourDraggedItem = null;
             }
         }, DropEvent.getType());
     }

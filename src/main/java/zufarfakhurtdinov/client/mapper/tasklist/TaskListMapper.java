@@ -43,8 +43,8 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
             }
         });
 
-        getTarget().title.getElement().setDraggable( Element.DRAGGABLE_TRUE );
-        getTarget().title.addDomHandler( new DragStartHandler() {
+        getTarget().namePanel.getElement().setDraggable( Element.DRAGGABLE_TRUE );
+        getTarget().namePanel.addDomHandler( new DragStartHandler() {
             @Override
             public void onDragStart(DragStartEvent event) {
                 event.getDataTransfer().setData(TRANSFER_DATA_TYPE, "");
