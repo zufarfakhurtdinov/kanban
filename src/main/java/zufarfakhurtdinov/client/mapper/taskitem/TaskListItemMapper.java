@@ -6,6 +6,7 @@ import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.Synchronizers;
 import jetbrains.jetpad.model.collections.list.ObservableList;
 import zufarfakhurtdinov.client.common.InplaceEditor;
+import zufarfakhurtdinov.client.mapper.viewmodel.TaskListViewModel;
 import zufarfakhurtdinov.client.model.TaskListItem;
 
 /**
@@ -14,10 +15,12 @@ import zufarfakhurtdinov.client.model.TaskListItem;
 public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
     private static final String TRANSFER_DATA_TYPE = "transferDateType";
     private static TaskListItem ourDraggedItem;
+    private final TaskListViewModel taskListViewModel;
 
-    public TaskListItemMapper( TaskListItem source ) {
+    public TaskListItemMapper( TaskListItem source, TaskListViewModel taskListViewModel) {
         super(source, new TaskListItemView());
 
+        this.taskListViewModel = taskListViewModel;
         getTarget().delete.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -68,5 +71,17 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
         conf.add(Synchronizers.forProperties(getSource().text,
                 InplaceEditor.editableTextOf(getTarget().text, getTarget().textPanel, getTarget().textEdit))
         );
+        conf.add(Synchronizers.forProperty( taskListViewModel.lastUserAddedTask, new Runnable() {
+            @Override
+            public void run() {
+                if( taskListViewModel.lastUserAddedTask.get() == null ) {
+                    return;
+                }
+                if( taskListViewModel.lastUserAddedTask.get().id == getSource().id ) {
+                    showNameEdit();
+//                    taskListViewModel.lastUserAddedTask.set( null );
+                }
+            }
+        }));
     }
 }

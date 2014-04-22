@@ -9,6 +9,7 @@ import jetbrains.jetpad.mapper.Synchronizers;
 import jetbrains.jetpad.model.collections.list.ObservableList;
 import zufarfakhurtdinov.client.common.InplaceEditor;
 import zufarfakhurtdinov.client.common.WidgetChildList;
+import zufarfakhurtdinov.client.mapper.viewmodel.TaskListViewModel;
 import zufarfakhurtdinov.client.mapper.taskitem.TaskListItemMapper;
 import zufarfakhurtdinov.client.model.TaskList;
 import zufarfakhurtdinov.client.model.TaskListItem;
@@ -21,9 +22,12 @@ import static jetbrains.jetpad.mapper.Synchronizers.forObservableRole;
 public class TaskListMapper extends Mapper<TaskList, TaskListView> {
     private static final String TRANSFER_DATA_TYPE = "transferDateType";
     private static TaskList ourDraggedTaskList;
+    private final TaskListViewModel taskListViewModel;
 
-    public TaskListMapper(TaskList source) {
+    public TaskListMapper(TaskList source, final TaskListViewModel taskListViewModel) {
         super(source, new TaskListView());
+
+        this.taskListViewModel = taskListViewModel;
 
         getTarget().addTask.addClickHandler(new ClickHandler() {
             @Override
@@ -33,7 +37,7 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
                 item.text.set(text);
                 getSource().items.add(item);
 
-                ((TaskListItemMapper)getDescendantMapper( item )).showNameEdit();
+                taskListViewModel.lastUserAddedTask.set( item );
             }
         });
         getTarget().delete.addClickHandler(new ClickHandler() {
@@ -81,7 +85,7 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
         conf.add(forObservableRole(this, getSource().items, new WidgetChildList(getTarget().children), new MapperFactory<TaskListItem, Widget>() {
             @Override
             public Mapper<? extends TaskListItem, ? extends Widget> createMapper(TaskListItem source) {
-                return new TaskListItemMapper(source);
+                return new TaskListItemMapper(source, taskListViewModel);
             }
         }));
 
@@ -89,5 +93,4 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
                 InplaceEditor.editableTextOf( getTarget().name, getTarget().namePanel, getTarget().editName) )
         );
     }
-
 }
