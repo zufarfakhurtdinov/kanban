@@ -37,7 +37,7 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
                 item.text.set(text);
                 getSource().items.add(item);
 
-                taskListViewModel.lastUserAddedTask.set( item );
+                taskListViewModel.lastUserAddedTaskId.set( item.id );
             }
         });
         getTarget().delete.addClickHandler(new ClickHandler() {

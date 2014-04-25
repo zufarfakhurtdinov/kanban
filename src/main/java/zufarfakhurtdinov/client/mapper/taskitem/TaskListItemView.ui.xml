@@ -1,8 +1,8 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
-    <g:HTMLPanel ui:field="main">
+    <g:HTMLPanel ui:field="main" addStyleNames="{style.mainPanel}">
         <g:HTMLPanel ui:field="textPanel" addStyleNames="{style.textPanel}">
             <g:SimplePanel styleName="{style.headingWrapper} {style.dragCursor} ">
-                <b:Heading ui:field="text" size="5" addStyleNames="{style.heading}"/>
+                <g:Label ui:field="text" addStyleNames="{style.heading}"/>
             </g:SimplePanel>
             <b:Button ui:field="delete" addStyleNames="{style.button}">x</b:Button>
             <span class="{style.stretch}"/>
@@ -21,13 +21,18 @@
             text-align: justify;
             position: relative;
             width: 100%;
+
+        }
+        .mainPanel{
+            margin-bottom: 3px;
         }
 
-        .heading{
+        .heading {
             width: 110px;
             word-wrap: break-word;
             margin-top: 0;
         }
+
         .headingWrapper {
             margin: 0;
             padding: 10px 0;
@@ -36,7 +41,7 @@
 
         .button {
             display: inline-block;
-            vertical-align: top;
+            vertical-align: baseline;
         }
 
         .stretch {

@@ -1,7 +1,10 @@
 package zufarfakhurtdinov.client.mapper.taskitem;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Widget;
 import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.Synchronizers;
 import jetbrains.jetpad.model.collections.list.ObservableList;
@@ -14,13 +17,20 @@ import zufarfakhurtdinov.client.model.TaskListItem;
  */
 public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
     private static final String TRANSFER_DATA_TYPE = "transferDateType";
+    private static final String AFTER_DROP_COLOR = "afterDropColor";
+    private static final String TRANSITION_DROP = "transitionDrop";
+
     private static TaskListItem ourDraggedItem;
     private final TaskListViewModel taskListViewModel;
 
-    public TaskListItemMapper( TaskListItem source, TaskListViewModel taskListViewModel) {
+    public TaskListItemMapper( TaskListItem source, final TaskListViewModel taskListViewModel) {
         super(source, new TaskListItemView());
 
         this.taskListViewModel = taskListViewModel;
+        if( taskListViewModel.droppedTaskId.get() != null && source.id == taskListViewModel.droppedTaskId.get()) {
+            highlightTemporarily(getTarget().textPanel);
+            taskListViewModel.droppedTaskId.set(null);
+        }
         getTarget().delete.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -39,6 +49,13 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
         }, DragStartEvent.getType());
 
         getTarget().main.sinkBitlessEvent(DragOverEvent.getType().getName());
+
+//        getTarget().main.addDomHandler(new DragEnterHandler() {
+//            @Override
+//            public void onDragEnter(DragEnterEvent event) {
+//                getTarget().textPanel.addStyleName(AFTER_DROP_COLOR);
+//            }
+//        }, DragEnterEvent.getType());
         getTarget().main.addDomHandler(new DropHandler() {
             @Override
             public void onDrop(DropEvent event) {
@@ -51,19 +68,34 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
 
                 int indexToAdd = taskLists.indexOf(getSource());
                 ourDraggedItem.removeFromParent();
+                taskListViewModel.droppedTaskId.set( ourDraggedItem.id );
                 taskLists.add(indexToAdd, ourDraggedItem);
                 ourDraggedItem = null;
             }
         }, DropEvent.getType());
     }
 
+    private static void highlightTemporarily(final Widget widget) {
+        widget.addStyleName(AFTER_DROP_COLOR);
+
+        Scheduler.get().scheduleDeferred( new Command() {
+            @Override
+            public void execute() {
+                widget.removeStyleName(AFTER_DROP_COLOR);
+                widget.addStyleName(TRANSITION_DROP);
+                Scheduler.get().scheduleDeferred(new Command() {
+                    @Override
+                    public void execute() {
+                        widget.removeStyleName(TRANSITION_DROP);
+                    }
+                });
+            }
+        });
+    }
+
     private static native void click(Element element)/*-{
         element.click();
     }-*/;
-
-    public void showNameEdit() {
-        click( getTarget().text.getElement() );
-    }
 
     @Override
     protected void registerSynchronizers(SynchronizersConfiguration conf) {
@@ -71,17 +103,21 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
         conf.add(Synchronizers.forProperties(getSource().text,
                 InplaceEditor.editableTextOf(getTarget().text, getTarget().textPanel, getTarget().textEdit))
         );
-        conf.add(Synchronizers.forProperty( taskListViewModel.lastUserAddedTask, new Runnable() {
+        conf.add(Synchronizers.forProperty( taskListViewModel.lastUserAddedTaskId, new Runnable() {
             @Override
             public void run() {
-                if( taskListViewModel.lastUserAddedTask.get() == null ) {
+                if( taskListViewModel.lastUserAddedTaskId.get() == null ) {
                     return;
                 }
-                if( taskListViewModel.lastUserAddedTask.get().id == getSource().id ) {
+                if( taskListViewModel.lastUserAddedTaskId.get() == getSource().id ) {
                     showNameEdit();
-//                    taskListViewModel.lastUserAddedTask.set( null );
+//                    taskListViewModel.lastUserAddedTaskId.set( null );
                 }
             }
         }));
+    }
+
+    private void showNameEdit() {
+        click( getTarget().text.getElement() );
     }
 }

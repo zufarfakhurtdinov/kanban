@@ -4,14 +4,13 @@
             <b:PanelHeader ui:field="title" addStyleNames="{style.dragCursor}">
                 <b:InputGroup addStyleNames="{style.inputGroupStyle}">
                     <g:FlowPanel ui:field="namePanel">
-                        <b:Heading size="4" ui:field="name" addStyleNames="pull-left {style.headingStyle}"/>
+                        <b:Heading size="4" ui:field="name" addStyleNames="pull-left {style.heading}"/>
                         <g:SimplePanel styleName="pull-right ">
                             <b:Button ui:field="delete" addStyleNames="{style.marginButton}">x</b:Button>
                         </g:SimplePanel>
                     </g:FlowPanel>
                     <b:TextBox ui:field="editName" visible="false"/>
                 </b:InputGroup>
-
 
             </b:PanelHeader>
             <b:PanelBody addStyleNames="{style.panelBody}">
@@ -49,13 +48,14 @@
         .inputGroupStyle {
             width: 100%;
         }
-        .headingStyle{
-            display: inline;
+        .heading{
+            width: 110px;
             word-wrap: break-word;
         }
         .panelBody{
             overflow: auto;
             max-height: 320px;
+            padding: 10px;
         }
     </ui:style>
 </ui:UiBinder>
