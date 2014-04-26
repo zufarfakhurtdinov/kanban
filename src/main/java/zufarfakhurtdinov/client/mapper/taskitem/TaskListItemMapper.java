@@ -9,7 +9,7 @@ import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.Synchronizers;
 import jetbrains.jetpad.model.collections.list.ObservableList;
 import zufarfakhurtdinov.client.common.InplaceEditor;
-import zufarfakhurtdinov.client.mapper.viewmodel.TaskListViewModel;
+import zufarfakhurtdinov.client.mapper.viewmodel.BoardViewModel;
 import zufarfakhurtdinov.client.model.TaskListItem;
 
 /**
@@ -17,19 +17,19 @@ import zufarfakhurtdinov.client.model.TaskListItem;
  */
 public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
     private static final String TRANSFER_DATA_TYPE = "transferDateType";
+
     private static final String AFTER_DROP_COLOR = "afterDropColor";
     private static final String TRANSITION_DROP = "transitionDrop";
 
-    private static TaskListItem ourDraggedItem;
-    private final TaskListViewModel taskListViewModel;
+    private final BoardViewModel boardViewModel;
 
-    public TaskListItemMapper( TaskListItem source, final TaskListViewModel taskListViewModel) {
+    public TaskListItemMapper( TaskListItem source, final BoardViewModel boardViewModel) {
         super(source, new TaskListItemView());
 
-        this.taskListViewModel = taskListViewModel;
-        if( taskListViewModel.droppedTaskId.get() != null && source.id == taskListViewModel.droppedTaskId.get()) {
+        this.boardViewModel = boardViewModel;
+        if( boardViewModel.droppedTask.get() != null && source.id == boardViewModel.droppedTask.get().id) {
             highlightTemporarily(getTarget().textPanel);
-            taskListViewModel.droppedTaskId.set(null);
+            boardViewModel.droppedTask.set(null);
         }
         getTarget().delete.addClickHandler(new ClickHandler() {
             @Override
@@ -44,33 +44,26 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
             public void onDragStart(DragStartEvent event) {
                 event.getDataTransfer().setData(TRANSFER_DATA_TYPE, "");
                 event.getDataTransfer().setDragImage(getTarget().main.getElement(), 10, 10);
-                ourDraggedItem = getSource();
+                boardViewModel.draggedTask = getSource();
             }
         }, DragStartEvent.getType());
 
         getTarget().main.sinkBitlessEvent(DragOverEvent.getType().getName());
-
-//        getTarget().main.addDomHandler(new DragEnterHandler() {
-//            @Override
-//            public void onDragEnter(DragEnterEvent event) {
-//                getTarget().textPanel.addStyleName(AFTER_DROP_COLOR);
-//            }
-//        }, DragEnterEvent.getType());
         getTarget().main.addDomHandler(new DropHandler() {
             @Override
             public void onDrop(DropEvent event) {
                 event.preventDefault();
                 event.stopPropagation();
-                if (ourDraggedItem == null) {
+                if (boardViewModel.draggedTask == null) {
                     return;
                 }
                 ObservableList<TaskListItem> taskLists = getSource().parent().get().items;
 
                 int indexToAdd = taskLists.indexOf(getSource());
-                ourDraggedItem.removeFromParent();
-                taskListViewModel.droppedTaskId.set( ourDraggedItem.id );
-                taskLists.add(indexToAdd, ourDraggedItem);
-                ourDraggedItem = null;
+                boardViewModel.draggedTask.removeFromParent();
+                boardViewModel.droppedTask.set( boardViewModel.draggedTask );
+                taskLists.add(indexToAdd, boardViewModel.draggedTask);
+                boardViewModel.draggedTask = null;
             }
         }, DropEvent.getType());
     }
@@ -103,13 +96,13 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
         conf.add(Synchronizers.forProperties(getSource().text,
                 InplaceEditor.editableTextOf(getTarget().text, getTarget().textPanel, getTarget().textEdit))
         );
-        conf.add(Synchronizers.forProperty( taskListViewModel.lastUserAddedTaskId, new Runnable() {
+        conf.add(Synchronizers.forProperty( boardViewModel.lastUserAddedTaskId, new Runnable() {
             @Override
             public void run() {
-                if( taskListViewModel.lastUserAddedTaskId.get() == null ) {
+                if( boardViewModel.lastUserAddedTaskId.get() == null ) {
                     return;
                 }
-                if( taskListViewModel.lastUserAddedTaskId.get() == getSource().id ) {
+                if( boardViewModel.lastUserAddedTaskId.get() == getSource().id ) {
                     showNameEdit();
 //                    taskListViewModel.lastUserAddedTaskId.set( null );
                 }

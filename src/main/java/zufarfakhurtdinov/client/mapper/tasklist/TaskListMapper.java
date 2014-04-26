@@ -9,8 +9,8 @@ import jetbrains.jetpad.mapper.Synchronizers;
 import jetbrains.jetpad.model.collections.list.ObservableList;
 import zufarfakhurtdinov.client.common.InplaceEditor;
 import zufarfakhurtdinov.client.common.WidgetChildList;
-import zufarfakhurtdinov.client.mapper.viewmodel.TaskListViewModel;
 import zufarfakhurtdinov.client.mapper.taskitem.TaskListItemMapper;
+import zufarfakhurtdinov.client.mapper.viewmodel.BoardViewModel;
 import zufarfakhurtdinov.client.model.TaskList;
 import zufarfakhurtdinov.client.model.TaskListItem;
 
@@ -21,13 +21,14 @@ import static jetbrains.jetpad.mapper.Synchronizers.forObservableRole;
  */
 public class TaskListMapper extends Mapper<TaskList, TaskListView> {
     private static final String TRANSFER_DATA_TYPE = "transferDateType";
+    private static final String TRANSFER_DATA_MESSAGE = "taskList";
     private static TaskList ourDraggedTaskList;
-    private final TaskListViewModel taskListViewModel;
+    private final BoardViewModel boardViewModel;
 
-    public TaskListMapper(TaskList source, final TaskListViewModel taskListViewModel) {
+    public TaskListMapper(TaskList source, final BoardViewModel boardViewModel) {
         super(source, new TaskListView());
 
-        this.taskListViewModel = taskListViewModel;
+        this.boardViewModel = boardViewModel;
 
         getTarget().addTask.addClickHandler(new ClickHandler() {
             @Override
@@ -37,7 +38,7 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
                 item.text.set(text);
                 getSource().items.add(item);
 
-                taskListViewModel.lastUserAddedTaskId.set( item.id );
+                boardViewModel.lastUserAddedTaskId.set( item.id );
             }
         });
         getTarget().delete.addClickHandler(new ClickHandler() {
@@ -51,7 +52,7 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
         getTarget().namePanel.addDomHandler( new DragStartHandler() {
             @Override
             public void onDragStart(DragStartEvent event) {
-                event.getDataTransfer().setData(TRANSFER_DATA_TYPE, "");
+                event.getDataTransfer().setData(TRANSFER_DATA_TYPE, TRANSFER_DATA_MESSAGE);
                 ourDraggedTaskList = getSource();
                 event.getDataTransfer().setDragImage(getTarget().main.getElement(), 10, 10);
             }
@@ -64,6 +65,13 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
                 event.preventDefault();
                 event.stopPropagation();
 
+                if( boardViewModel.draggedTask != null) {
+                    boardViewModel.draggedTask.removeFromParent();
+                    boardViewModel.droppedTask.set(boardViewModel.draggedTask);
+                    boardViewModel.draggedTask = null;
+                    getSource().items.add( boardViewModel.droppedTask.get() );
+                    return;
+                }
                 if( ourDraggedTaskList == null ) {
                     return;
                 }
@@ -85,7 +93,7 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
         conf.add(forObservableRole(this, getSource().items, new WidgetChildList(getTarget().children), new MapperFactory<TaskListItem, Widget>() {
             @Override
             public Mapper<? extends TaskListItem, ? extends Widget> createMapper(TaskListItem source) {
-                return new TaskListItemMapper(source, taskListViewModel);
+                return new TaskListItemMapper(source, boardViewModel);
             }
         }));
 

@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Widget;
 import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.MapperFactory;
 import zufarfakhurtdinov.client.common.WidgetChildList;
-import zufarfakhurtdinov.client.mapper.viewmodel.TaskListViewModel;
+import zufarfakhurtdinov.client.mapper.viewmodel.BoardViewModel;
 import zufarfakhurtdinov.client.mapper.tasklist.TaskListMapper;
 import zufarfakhurtdinov.client.model.Board;
 import zufarfakhurtdinov.client.model.TaskList;
@@ -18,6 +18,7 @@ import static jetbrains.jetpad.mapper.Synchronizers.forObservableRole;
  */
 public class BoardMapper extends Mapper<Board, BoardView> {
     private static int ourCounter = 0;
+    private final BoardViewModel viewModel = new BoardViewModel();
 
     public BoardMapper(Board source) {
         super(source, new BoardView());
@@ -38,7 +39,7 @@ public class BoardMapper extends Mapper<Board, BoardView> {
         conf.add(forObservableRole(this, getSource().items, new WidgetChildList( getTarget().main ), new MapperFactory<TaskList, Widget>() {
             @Override
             public Mapper<? extends TaskList, ? extends Widget> createMapper(TaskList source) {
-                return new TaskListMapper(source, new TaskListViewModel());
+                return new TaskListMapper(source, viewModel);
             }
         }));
     }
