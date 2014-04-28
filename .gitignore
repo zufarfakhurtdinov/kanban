@@ -1,8 +1,8 @@
-*.class
+**/*.class
 
 # Package Files #
-*.jar
-*.war
+**/*.jar
+**/*.war
 
 # gwt caches and compiled units #
 war/gwt_bree/
@@ -16,10 +16,10 @@ war/WEB-INF/deploy/
 war/WEB-INF/classes/
 
 #compilation logs
-.gwt/
+**/.gwt/
 
 #caching for already compiled files
-gwt-unitCache/
+**/gwt-unitCache/
 
 #gwt junit compilation files
 www-test/

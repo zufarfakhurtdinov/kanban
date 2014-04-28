@@ -7,100 +7,39 @@
     <groupId>zufarfakhurtdinov</groupId>
     <artifactId>kanban</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <!--<packaging>jar</packaging>-->
+    <packaging>pom</packaging>
 
     <properties>
         <gwt.version>2.6.0</gwt.version>
+        <spring.version>4.0.3.RELEASE</spring.version>
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.13</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <version>${gwt.version}</version>
-        </dependency>
+    <profiles>
+        <profile>
+            <id>all</id>
+            <modules>
+                <module>kanban-server</module>
+                <module>kanban-client</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>server</id>
+            <modules>
+                <module>kanban-server</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>client</id>
+            <modules>
+                <module>kanban-client</module>
+            </modules>
+        </profile>
 
-        <dependency>
-            <groupId>com.google.gwt.inject</groupId>
-            <artifactId>gin</artifactId>
-            <version>2.1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jukito</groupId>
-            <artifactId>jukito</artifactId>
-            <version>1.4</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>jetbrains.jetpad.mapper</groupId>
-            <artifactId>mapper</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>jetbrains.jetpad</groupId>
-            <artifactId>model</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.gwtbootstrap3</groupId>
-            <artifactId>gwtbootstrap3</artifactId>
-            <version>0.6</version>
-            <!--<scope>provided</scope>-->
-        </dependency>
-    </dependencies>
-
+    </profiles>
     <build>
-        <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
-
-
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/client/**</include>
-                    <include>**/*.gwt.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/client/**</include>
-                    <include>**/*.gwt.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/webapp</directory>
-                <includes>
-                    <include>**/*.html</include>
-                </includes>
-            </resource>
-        </resources>
-
-
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -116,39 +55,14 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>gwt-maven-plugin</artifactId>
-                <version>${gwt.version}</version>
-                <executions>
-                    <execution>
-                        <!--<configuration>-->
-                            <!--<module>zufarfakhurtdinov.kanban</module>-->
-                            <!--<draftCompile>true</draftCompile>-->
-                            <!--<localWorkers>4</localWorkers>-->
-                            <!--<logLevel>TRACE</logLevel>-->
-                        <!--</configuration>-->
-                        <goals>
-                            <!--<goal>test</goal>-->
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <runTarget>kanban.html</runTarget>
-                    <localWorkers>4</localWorkers>
-                    <hostedWebapp>${webappDirectory}</hostedWebapp>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-war-plugin</artifactId>-->
+                <!--<version>2.4</version>-->
+                <!--<configuration>-->
+                    <!--<webXml>src\main\webapp\WEB-INF\web.xml</webXml>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

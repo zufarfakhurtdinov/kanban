@@ -38,10 +38,6 @@ public class App implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        MyFactory myFactory = MyFactory.INSTANCE;
-
-        myFactory.getEventBus();
-
         Board board = createBoard();
         Mapper<Board, ? extends Widget> mapper = new BoardMapper( board );
         mapper.attachRoot();
