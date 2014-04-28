@@ -4,3 +4,10 @@
 .afterDropColor {
     background-color: #0000FF;
 }
+
+.placeToDrop {
+    border-top: dotted;
+}
+.disablePointerEvents{
+    pointer-events: none;
+}

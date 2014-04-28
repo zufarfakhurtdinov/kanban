@@ -10,5 +10,5 @@ import zufarfakhurtdinov.client.model.TaskListItem;
 public class BoardViewModel {
     public final Property<Integer> lastUserAddedTaskId = new ValueProperty<>();
     public final Property<TaskListItem> droppedTask = new ValueProperty<>();
-    public TaskListItem draggedTask;
+    public final Property<TaskListItem> draggedTask = new ValueProperty<>();
 }

@@ -20,6 +20,9 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
 
     private static final String AFTER_DROP_COLOR = "afterDropColor";
     private static final String TRANSITION_DROP = "transitionDrop";
+    private static final String DISABLE_POINTER_EVENTS = "disablePointerEvents";
+
+    private static final String PLACE_TO_DROP = "placeToDrop";
 
     private final BoardViewModel boardViewModel;
 
@@ -44,9 +47,35 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
             public void onDragStart(DragStartEvent event) {
                 event.getDataTransfer().setData(TRANSFER_DATA_TYPE, "");
                 event.getDataTransfer().setDragImage(getTarget().main.getElement(), 10, 10);
-                boardViewModel.draggedTask = getSource();
+                boardViewModel.draggedTask.set( getSource());
             }
         }, DragStartEvent.getType());
+
+        getTarget().textPanel.addDomHandler( new DragOverHandler() {
+            @Override
+            public void onDragOver(DragOverEvent event) {
+                event.stopPropagation();
+                event.preventDefault();
+                getTarget().textPanel.addStyleName(PLACE_TO_DROP);
+            }
+        }, DragOverEvent.getType());
+
+        getTarget().textPanel.addDomHandler( new DragEnterHandler() {
+            @Override
+            public void onDragEnter(DragEnterEvent event) {
+                event.stopPropagation();
+                event.preventDefault();
+                getTarget().textPanel.addStyleName(PLACE_TO_DROP);
+            }
+        }, DragEnterEvent.getType());
+
+        getTarget().textPanel.addDomHandler( new DragLeaveHandler() {
+            @Override
+            public void onDragLeave(DragLeaveEvent event) {
+                getTarget().textPanel.removeStyleName(PLACE_TO_DROP);
+            }
+        }, DragLeaveEvent.getType());
+
 
         getTarget().main.sinkBitlessEvent(DragOverEvent.getType().getName());
         getTarget().main.addDomHandler(new DropHandler() {
@@ -54,16 +83,17 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
             public void onDrop(DropEvent event) {
                 event.preventDefault();
                 event.stopPropagation();
-                if (boardViewModel.draggedTask == null) {
+                if (boardViewModel.draggedTask.get() == null) {
                     return;
                 }
                 ObservableList<TaskListItem> taskLists = getSource().parent().get().items;
 
                 int indexToAdd = taskLists.indexOf(getSource());
-                boardViewModel.draggedTask.removeFromParent();
-                boardViewModel.droppedTask.set( boardViewModel.draggedTask );
-                taskLists.add(indexToAdd, boardViewModel.draggedTask);
-                boardViewModel.draggedTask = null;
+                boardViewModel.draggedTask.get().removeFromParent();
+                boardViewModel.droppedTask.set(boardViewModel.draggedTask.get());
+                taskLists.add(indexToAdd, boardViewModel.draggedTask.get());
+                boardViewModel.draggedTask.set(null);
+                getTarget().textPanel.removeStyleName(PLACE_TO_DROP);
             }
         }, DropEvent.getType());
     }
@@ -108,8 +138,28 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
                 }
             }
         }));
+        conf.add( Synchronizers.forProperty( boardViewModel.draggedTask, new Runnable() {
+            @Override
+            public void run() {
+                if( boardViewModel.draggedTask.get() == null ) {
+                    removeDisablePointerEvents();
+                } else {
+                    addDisablePointerEvents();
+                }
+            }
+        }));
     }
 
+    private void addDisablePointerEvents() {
+        getTarget().text.addStyleName(DISABLE_POINTER_EVENTS);
+        getTarget().delete.addStyleName(DISABLE_POINTER_EVENTS);
+    }
+
+    private void removeDisablePointerEvents() {
+        getTarget().delete.removeStyleName(DISABLE_POINTER_EVENTS);
+        getTarget().text.removeStyleName(DISABLE_POINTER_EVENTS);
+
+    }
     private void showNameEdit() {
         click( getTarget().text.getElement() );
     }
