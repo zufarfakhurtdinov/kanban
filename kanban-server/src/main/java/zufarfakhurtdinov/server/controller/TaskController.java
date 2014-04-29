@@ -1,9 +1,6 @@
 package zufarfakhurtdinov.server.controller;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import zufarfakhurtdinov.server.dto.TaskDto;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,8 +24,8 @@ public class TaskController {
         return result;
     }
 
-    @RequestMapping( value = "/task/{id}", method = RequestMethod.PUT)
-    public void changeTask( @PathVariable int id, TaskDto taskDto, HttpServletResponse response){
+    @RequestMapping( value = "/task/{id}", method = RequestMethod.PUT )
+    public void changeTask( @PathVariable int id, @RequestBody TaskDto taskDto, HttpServletResponse response){
         TaskDto result = testStupidMap.get( id );
         if( result == null ) {
             response.setStatus( HttpServletResponse.SC_NOT_FOUND );
@@ -42,14 +39,15 @@ public class TaskController {
     }
 
     @RequestMapping( value = "/task", method = RequestMethod.POST)
-    public void addTask( TaskDto taskDto, HttpServletResponse response){
+    public TaskDto addTask( @RequestBody TaskDto taskDto, HttpServletResponse response){
         if( taskDto == null ) {
             //todo: check the code
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
+            return null;
         }
         taskDto.id = counter.getAndIncrement();
         testStupidMap.put(taskDto.id, taskDto);
+        return taskDto;
     }
 
     @RequestMapping( value = "/task/{id}", method = RequestMethod.DELETE)
