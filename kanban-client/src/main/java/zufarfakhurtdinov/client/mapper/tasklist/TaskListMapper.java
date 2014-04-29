@@ -65,10 +65,10 @@ public class TaskListMapper extends Mapper<TaskList, TaskListView> {
                 event.preventDefault();
                 event.stopPropagation();
 
-                if( boardViewModel.draggedTask != null) {
-                    boardViewModel.draggedTask.removeFromParent();
-                    boardViewModel.droppedTask.set(boardViewModel.draggedTask);
-                    boardViewModel.draggedTask = null;
+                if( boardViewModel.draggedTask.get() != null) {
+                    boardViewModel.draggedTask.get().removeFromParent();
+                    boardViewModel.droppedTask.set(boardViewModel.draggedTask.get());
+                    boardViewModel.draggedTask.set(null);
                     getSource().items.add( boardViewModel.droppedTask.get() );
                     return;
                 }

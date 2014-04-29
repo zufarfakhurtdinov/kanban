@@ -20,6 +20,9 @@
     <profiles>
         <profile>
             <id>all</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <modules>
                 <module>kanban-server</module>
                 <module>kanban-client</module>
