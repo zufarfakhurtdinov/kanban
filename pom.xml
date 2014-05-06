@@ -12,6 +12,8 @@
     <properties>
         <gwt.version>2.6.0</gwt.version>
         <spring.version>4.0.3.RELEASE</spring.version>
+        <hibernate.version>4.3.5.Final</hibernate.version>
+        <slf4j.version>1.7.7</slf4j.version>
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
