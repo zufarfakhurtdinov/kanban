@@ -11,16 +11,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name="TASKS")
 public class TaskDto {
+    @Id
+    @Column(name = "id")
+    public Integer id;
+    @Column(name = "text")
+    public String text;
+
     public TaskDto() {
     }
-
     public TaskDto(Integer id, String text) {
         this.id = id;
         this.text = text;
     }
-
-    @Id
-    @Column(name = "id")
-    public Integer id;
-    public String text;
 }

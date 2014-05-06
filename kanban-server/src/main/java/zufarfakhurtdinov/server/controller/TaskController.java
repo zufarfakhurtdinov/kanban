@@ -1,5 +1,6 @@
 package zufarfakhurtdinov.server.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import zufarfakhurtdinov.server.dto.TaskDto;
 import zufarfakhurtdinov.server.service.TaskService;
@@ -13,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class TaskController {
 
-    @RequestMapping( value = "/task/{id}", method = RequestMethod.GET, produces = "application/json")
+    @Inject
+    TaskService taskService;
+
+    @RequestMapping( value = "/task/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public TaskDto getTask( @PathVariable int id, HttpServletResponse response){
-        TaskDto result = taskService.findOne(id);
+        TaskDto result = taskService.get(id);
         if( result == null ) {
             response.setStatus( HttpServletResponse.SC_NOT_FOUND );
             return null;
@@ -25,13 +29,13 @@ public class TaskController {
 
     @RequestMapping( value = "/task/{id}", method = RequestMethod.PUT )
     public void changeTask( @PathVariable int id, @RequestBody TaskDto taskDto, HttpServletResponse response){
-        TaskDto result = taskService.findOne(id);
-        if( result == null ) {
-            response.setStatus( HttpServletResponse.SC_NOT_FOUND );
+        if( taskDto.id == null || id != taskDto.id ) {
+            response.setStatus( HttpServletResponse.SC_BAD_REQUEST );
             return;
         }
-        if( id != taskDto.id ) {
-            response.setStatus( HttpServletResponse.SC_BAD_REQUEST );
+        TaskDto oldValue = taskService.get(id);
+        if( oldValue == null ) {
+            response.setStatus( HttpServletResponse.SC_NOT_FOUND );
             return;
         }
         taskService.save(taskDto);
@@ -39,8 +43,7 @@ public class TaskController {
 
     @RequestMapping( value = "/task", method = RequestMethod.POST)
     public TaskDto addTask( @RequestBody TaskDto taskDto, HttpServletResponse response){
-        if( taskDto == null ) {
-            //todo: check the code
+        if( taskDto == null || taskDto.id != null ) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return null;
         }
@@ -55,7 +58,4 @@ public class TaskController {
         }
         taskService.delete(id);
     }
-
-    @Inject
-    TaskService taskService;
 }

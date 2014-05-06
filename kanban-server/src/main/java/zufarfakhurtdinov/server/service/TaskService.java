@@ -12,7 +12,10 @@ import javax.inject.Inject;
 @Component
 public class TaskService {
 
-    public TaskDto findOne( Integer id ) {
+    @Inject
+    TaskRepository taskRepository;
+
+    public TaskDto get(Integer id) {
         return taskRepository.findOne( id );
     }
 
@@ -27,7 +30,4 @@ public class TaskService {
     public void delete( Integer id ) {
         taskRepository.delete( id );
     }
-
-    @Inject
-    TaskRepository taskRepository;
 }
