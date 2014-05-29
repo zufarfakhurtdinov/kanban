@@ -47,6 +47,8 @@ public class TaskController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return null;
         }
+        response.setStatus(HttpServletResponse.SC_CREATED);
+
         return taskService.save( taskDto );
     }
 

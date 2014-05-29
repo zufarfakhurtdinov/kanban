@@ -9,7 +9,7 @@ import javax.persistence.Table;
  * Created by dr on 28.04.2014.
  */
 @Entity
-@Table(name="TASKS")
+@Table(name="Tasks")
 public class TaskDto {
     @Id
     @Column(name = "id")

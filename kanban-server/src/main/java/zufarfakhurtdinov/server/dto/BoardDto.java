@@ -4,16 +4,17 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Created by dr on 05.05.2014.
+ * Created by dr on 11.05.2014.
  */
 @Entity
-@Table(name="TaskLists")
-public class TaskListDto {
+@Table(name = "Boards")
+public class BoardDto {
 
     @Id
     @Column(name = "id")
     public Integer id;
 
     @OneToMany
-    public List<TaskDto> tasks;
+    public List<TaskListDto> taskLists;
+
 }
