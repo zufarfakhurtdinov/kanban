@@ -126,6 +126,14 @@
                     <hostedWebapp>${webappDirectory}</hostedWebapp>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.1.4.v20140401</version>
+                <configuration>
+                    <scanIntervalSeconds>0</scanIntervalSeconds>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
