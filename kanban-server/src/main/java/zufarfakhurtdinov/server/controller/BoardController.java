@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import zufarfakhurtdinov.server.dto.BoardDto;
+import zufarfakhurtdinov.common.dto.BoardDto;
 import zufarfakhurtdinov.server.service.BoardService;
 
 import javax.inject.Inject;

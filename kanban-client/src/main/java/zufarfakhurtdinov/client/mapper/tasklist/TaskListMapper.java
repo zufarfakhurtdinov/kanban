@@ -7,6 +7,7 @@ import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.MapperFactory;
 import jetbrains.jetpad.mapper.Synchronizers;
 import jetbrains.jetpad.model.collections.list.ObservableList;
+import zufarfakhurtdinov.client.common.IdFactory;
 import zufarfakhurtdinov.client.common.InplaceEditor;
 import zufarfakhurtdinov.client.common.WidgetChildList;
 import zufarfakhurtdinov.client.mapper.taskitem.TaskListItemMapper;
@@ -16,25 +17,23 @@ import zufarfakhurtdinov.client.model.TaskListItem;
 
 import static jetbrains.jetpad.mapper.Synchronizers.forObservableRole;
 
-/**
- * Created by dr on 05.04.2014.
- */
 public class TaskListMapper extends Mapper<TaskList, TaskListView> {
     private static final String TRANSFER_DATA_TYPE = "transferDateType";
     private static final String TRANSFER_DATA_MESSAGE = "taskList";
     private static TaskList ourDraggedTaskList;
     private final BoardViewModel boardViewModel;
+    private final IdFactory ID_FACTORY;
 
-    public TaskListMapper(TaskList source, final BoardViewModel boardViewModel) {
+    public TaskListMapper(TaskList source, final BoardViewModel boardViewModel, IdFactory idFactory) {
         super(source, new TaskListView());
-
+        this.ID_FACTORY = idFactory;
         this.boardViewModel = boardViewModel;
 
         getTarget().addTask.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 String text = "new task";
-                TaskListItem item = new TaskListItem();
+                TaskListItem item = new TaskListItem(ID_FACTORY.getId());
                 item.text.set(text);
                 getSource().items.add(item);
 

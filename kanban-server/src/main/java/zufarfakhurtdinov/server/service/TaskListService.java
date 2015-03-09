@@ -1,6 +1,6 @@
 package zufarfakhurtdinov.server.service;
 
-import zufarfakhurtdinov.server.dto.TaskListDto;
+import zufarfakhurtdinov.common.dto.TaskListDto;
 import zufarfakhurtdinov.server.repository.TaskListRepository;
 
 import javax.inject.Inject;

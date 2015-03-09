@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 import jetbrains.jetpad.mapper.Mapper;
 import jetbrains.jetpad.mapper.MapperFactory;
+import zufarfakhurtdinov.client.common.IdFactory;
 import zufarfakhurtdinov.client.common.WidgetChildList;
 import zufarfakhurtdinov.client.mapper.viewmodel.BoardViewModel;
 import zufarfakhurtdinov.client.mapper.tasklist.TaskListMapper;
@@ -13,21 +14,18 @@ import zufarfakhurtdinov.client.model.TaskList;
 
 import static jetbrains.jetpad.mapper.Synchronizers.forObservableRole;
 
-/**
- * Created by dr on 06.04.2014.
- */
 public class BoardMapper extends Mapper<Board, BoardView> {
-    private static int ourCounter = 0;
+    private final IdFactory ID_FACTORY;
     private final BoardViewModel viewModel = new BoardViewModel();
 
-    public BoardMapper(Board source) {
+    public BoardMapper(Board source, IdFactory idFactory) {
         super(source, new BoardView());
-
+        this.ID_FACTORY = idFactory;
         getTarget().addNew.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                TaskList taskList = new TaskList();
-                taskList.name.set("new tasklist" + ++ourCounter);
+                TaskList taskList = new TaskList(ID_FACTORY.getId());
+                taskList.name.set("new tasklist " + taskList.id);
                 getSource().items.add(taskList);
             }
         });
@@ -39,7 +37,7 @@ public class BoardMapper extends Mapper<Board, BoardView> {
         conf.add(forObservableRole(this, getSource().items, new WidgetChildList( getTarget().main ), new MapperFactory<TaskList, Widget>() {
             @Override
             public Mapper<? extends TaskList, ? extends Widget> createMapper(TaskList source) {
-                return new TaskListMapper(source, viewModel);
+                return new TaskListMapper(source, viewModel, ID_FACTORY);
             }
         }));
     }

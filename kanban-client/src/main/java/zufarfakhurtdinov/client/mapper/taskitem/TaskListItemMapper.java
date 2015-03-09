@@ -12,9 +12,6 @@ import zufarfakhurtdinov.client.common.InplaceEditor;
 import zufarfakhurtdinov.client.mapper.viewmodel.BoardViewModel;
 import zufarfakhurtdinov.client.model.TaskListItem;
 
-/**
- * Created by dr on 05.04.2014.
- */
 public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
     private static final String TRANSFER_DATA_TYPE = "transferDateType";
 
@@ -134,7 +131,6 @@ public class TaskListItemMapper extends Mapper<TaskListItem, TaskListItemView> {
                 }
                 if( boardViewModel.lastUserAddedTaskId.get() == getSource().id ) {
                     showNameEdit();
-//                    taskListViewModel.lastUserAddedTaskId.set( null );
                 }
             }
         }));

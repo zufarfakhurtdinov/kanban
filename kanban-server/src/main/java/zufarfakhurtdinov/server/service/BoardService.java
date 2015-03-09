@@ -1,6 +1,6 @@
 package zufarfakhurtdinov.server.service;
 
-import zufarfakhurtdinov.server.dto.BoardDto;
+import zufarfakhurtdinov.common.dto.BoardDto;
 import zufarfakhurtdinov.server.repository.BoardRepository;
 
 import javax.inject.Inject;

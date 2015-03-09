@@ -1,7 +1,7 @@
 package zufarfakhurtdinov.server.service;
 
 import org.springframework.stereotype.Component;
-import zufarfakhurtdinov.server.dto.TaskDto;
+import zufarfakhurtdinov.common.dto.TaskDto;
 import zufarfakhurtdinov.server.repository.TaskRepository;
 
 import javax.inject.Inject;

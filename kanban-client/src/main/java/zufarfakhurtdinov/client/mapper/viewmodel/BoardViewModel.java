@@ -8,7 +8,7 @@ import zufarfakhurtdinov.client.model.TaskListItem;
  * Created by dr on 22.04.2014.
  */
 public class BoardViewModel {
-    public final Property<Integer> lastUserAddedTaskId = new ValueProperty<>();
+    public final Property<String> lastUserAddedTaskId = new ValueProperty<>();
     public final Property<TaskListItem> droppedTask = new ValueProperty<>();
     public final Property<TaskListItem> draggedTask = new ValueProperty<>();
 }

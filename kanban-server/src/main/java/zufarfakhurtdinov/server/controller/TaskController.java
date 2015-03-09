@@ -2,7 +2,7 @@ package zufarfakhurtdinov.server.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import zufarfakhurtdinov.server.dto.TaskDto;
+import zufarfakhurtdinov.common.dto.TaskDto;
 import zufarfakhurtdinov.server.service.TaskService;
 
 import javax.inject.Inject;
