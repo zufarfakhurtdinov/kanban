@@ -22,7 +22,7 @@
         <dependency>
             <groupId>org.jukito</groupId>
             <artifactId>jukito</artifactId>
-            <version>1.4</version>
+            <version>${jukito.version}</version>
             <scope>test</scope>
         </dependency>
 
